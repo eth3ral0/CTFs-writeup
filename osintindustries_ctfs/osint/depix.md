@@ -19,7 +19,6 @@ The ticket is heavily pixelated, but key details remain partially recoverable. I
 ## Provided information
 
 - A consored image of the passenger's flight ticket
-  ![image](osintindustries_ctfs\osint\20130609_141614_censored.jpg)
 
 
 ## High-level approach
