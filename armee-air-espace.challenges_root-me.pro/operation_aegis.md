@@ -1,6 +1,7 @@
 # Opération AEGIS
 
-# 1
+# 1 Capture du lien
+(réseau)
 Pour ce challenge j'ai tourné pendant un bon moment car je ne savais pas qu'il fallait installer le plugin LUA sur wireshark (dont le pourquoi que je ne voyais que des paquets UDP )
 https://gist.github.com/dagar/c006ce6014fd56fbdab92af062bd8e19#file-mavlink_common-lua
 
@@ -41,7 +42,8 @@ Heure de la frame : **UTC Arrival Time: Nov  9, 2026 06:41:27.350000000 UTC**
 `RM{2026-11-09T06:41:27Z:MAV_CMD_DO_SET_MODE}`
 
 
-# 2 
+# 2 Investigation
+(forensic)
 
 Pour cela il fallait se rendre sur le site [], et charger le fichier bin, 
 Ensuite activer l'option Messages puis avancer à l'heure qu'on a extrait précédemment (selon la map : 06:41:27:500).
@@ -67,7 +69,8 @@ On voit bien que c'est GPS1
 
 `RM{2026-11-09T06:41:06Z:GPS1}`
 
-# 3
+# 3 Localisation de la source
+(radio fréquence)
 
 Cet étape était très rapide, il fallait activer toutes les antennes puis localiser l'installation la plus proche du point d'intersection, qui est PYL-AC04.
 
@@ -75,7 +78,8 @@ Cet étape était très rapide, il fallait activer toutes les antennes puis loca
 
 `RM{PYL-AC04}`
 
-# 4
+# 4 Matériel abandonné
+(reverse engineering)
 
 Pour trouver ces données, j'ai ouvert l'extrait de l'image mémoire du boitier dans Autopsy, et je suis partie dans les fichiers supprimés et dans les logs du systèmes (syslog.1)
 
@@ -85,7 +89,8 @@ On trouve par la suite une connexion uplink avant que le service soit désactiv�
 
 `RM{198.51.100.47:8443}`
 
-# 5
+# 5 Attribution
+(forensic)
 
 Il y avait plusieurs moyens de trouver le boitier dans le CSV grâce à l'image du boitier, pour ma part j'ai prit par rapport au numéro de série : **A50285BI**
 
@@ -94,3 +99,17 @@ Il y avait plusieurs moyens de trouver le boitier dans le CSV grâce à l'image 
 Et en cherchant dans le fichier CSV on trouve la ligne qui correspondant à ce numéro de série.
 
 `RM{2026-10-26:bruno_tessier}`
+
+# 6 Rejeu de la vulnérabilité
+(pentest)
+
+Pour celui-là je n'ai pas pu le terminer au moment où j'écris ce writeup, mais j'ai pu le commencer. 
+
+J'ai d'abord télécharger MAVPROXY pour pouvoir l'utiliser pour la communication en MAVLINK.
+
+Sur un terminal je vais me connecter au banc d'essaie :
+nc sandbox.armee-air-espace.challenges.root-me.pro 5760
+
+et sur un autre terminal, je vais me connecter avec MAVPROXY, et surtout partie là il faudra passer en mode GUIDED, donc en faisant mode GUIDED.
+
+puis ensuite je n'ai pas pu avancer +..
